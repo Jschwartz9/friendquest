@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FriendQuest - Never Ask "What Should We Do?" Again</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const games = [
+            {
+                id: 1,
+                name: "Hidden Gems Bingo",
+                emoji: "🎯",
+                time: "45-60 min",
+                energy: "Moderate",
+                location: "Outdoor",
+                players: "2-8",
+                category: ["outdoor", "moderate"],
+                shortDesc: "Find quirky things in your neighborhood - purple doors, singing people, street art!",
+                fullDesc: "Your group gets a bingo card of things to find in your neighborhood: purple door, dog wearing clothes, street art with the year you were born, someone singing, etc. Race to complete a row.",
+                whatYouNeed: ["Your phones", "Walking-friendly neighborhood", "2-8 people"],
+                steps: [
+                    { title: "Get Your Card", text: "Everyone gets their own bingo card with different items to find." },
+                    { title: "Set Timer", text: "Set a 45-minute timer. Put phones in pockets after this!" },
+                    { title: "Start Searching", text: "Walk around and find items on your card. Take photos as proof!" },
+                    { title: "First to Bingo", text: "First person to complete a row wins!" },
+                    { title: "Share Finds", text: "Come back together and share the funniest things you found." }
+                ]
+            },
+            {
+                id: 2,
+                name: "The $5 Challenge",
+                emoji: "💵",
+                time: "60-90 min",
+                energy: "Moderate",
+                location: "Outdoor",
+                players: "2-10",
+                category: ["outdoor", "moderate"],
+                shortDesc: "Each person gets $5 and a creative mission. Find the weirdest item!",
+                fullDesc: "Each person gets exactly $5 and a mission: find the weirdest item, buy mystery ingredients, or collect things starting with 'M'. Reconvene and share!",
+                whatYouNeed: ["$5 per person/team", "Shopping area nearby", "2-10 people"],
+                steps: [
+                    { title: "Get Your Mission", text: "Mission: Find the WEIRDEST item you can buy for under $5." },
+                    { title: "Set Timer", text: "You have 60 minutes. Go!" },
+                    { title: "Shop Around", text: "Explore stores, markets, or shops. Get creative!" },
+                    { title: "Reconvene", text: "Meet back at your starting point with your purchase." },
+                    { title: "Show & Tell", text: "Present your items. Most creative wins!" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Speed Interviews",
+                emoji: "🏃",
+                time: "30-45 min",
+                energy: "Active",
+                location: "Outdoor",
+                players: "4-10",
+                category: ["outdoor", "active"],
+                shortDesc: "Race to interview strangers about fun topics. Best answers win!",
+                fullDesc: "Split into teams and race to interview 5 strangers: 'best pizza place,' 'hidden gems,' 'weekend plans.' Fastest team with most interesting answer wins!",
+                whatYouNeed: ["4+ people", "Busy public area", "Phones for notes"],
+                steps: [
+                    { title: "Split Teams", text: "Divide into teams of 2-3 people." },
+                    { title: "Get Topic", text: "Topic: 'What's the best hidden gem in this area?'" },
+                    { title: "Start Timer", text: "Set 30 minutes. Interview 5 different people." },
+                    { title: "Interview!", text: "Be friendly, respectful. Take notes!" },
+                    { title: "Compare Answers", text: "Teams share. Most interesting response wins!" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Group Photo Challenge",
+                emoji: "📸",
+                time: "45-60 min",
+                energy: "Moderate",
+                location: "Indoor or Outdoor",
+                players: "3-8",
+                category: ["active", "moderate"],
+                shortDesc: "10 creative photo prompts: mid-jump, human pyramids, perspective tricks!",
+                fullDesc: "Complete 10 creative photo challenges: everyone mid-jump, human pyramid, perspective tricks, shadow art. You vs. the clock!",
+                whatYouNeed: ["3-8 people", "Phone camera", "Open space"],
+                steps: [
+                    { title: "Photo List", text: "Challenge 1: Everyone mid-jump\nChallenge 2: Human pyramid\nChallenge 3: Perspective trick\nChallenge 4: Shadow art\nChallenge 5: Reflection\nChallenge 6: Action freeze\nChallenge 7: Silhouettes\nChallenge 8: Mirror poses\nChallenge 9: Levitation\nChallenge 10: From above" },
+                    { title: "Set Timer", text: "45 minutes to complete all 10!" },
+                    { title: "Take Photos", text: "Work through the list in any order!" },
+                    { title: "Review", text: "Which ones turned out best?" },
+                    { title: "Pick Winner", text: "Vote on most creative!" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Compliment Battle",
+                emoji: "😊",
+                time: "15-30 min",
+                energy: "Chill",
+                location: "Indoor or Outdoor",
+                players: "3-8",
+                category: ["chill"],
+                shortDesc: "Battle with kindness! Compete to give the best compliments.",
+                fullDesc: "Two people face off. Someone gives a topic: shoes, laugh, cooking. Each has 30 seconds to compliment the other. Group votes on who was more creative!",
+                whatYouNeed: ["3+ people", "Anywhere comfortable", "Positive vibes!"],
+                steps: [
+                    { title: "First Battle", text: "Two people step up. Get a topic." },
+                    { title: "Topic Reveal", text: "Topic: 'Their sense of style'" },
+                    { title: "Compliment Round", text: "30 seconds each to compliment the other." },
+                    { title: "Vote", text: "Everyone votes on better compliment." },
+                    { title: "Winner Stays", text: "Winner stays, new challenger!" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Night Photo Safari",
+                emoji: "🌃",
+                time: "45-60 min",
+                energy: "Moderate",
+                location: "Outdoor",
+                players: "2-6",
+                category: ["outdoor", "moderate"],
+                shortDesc: "Capture creative nighttime photos: light trails, reflections, shadows!",
+                fullDesc: "Complete photo challenges: light trails from cars, silhouettes with city lights, creative reflections, shadows. Get artistic!",
+                whatYouNeed: ["2-6 people", "City or lit area", "Phones with night mode"],
+                steps: [
+                    { title: "Photo Challenges", text: "Challenge 1: Light trails\nChallenge 2: Silhouette\nChallenge 3: Reflection\nChallenge 4: Shadow art\nChallenge 5: Mid-jump with lights" },
+                    { title: "Night Mode", text: "Use your phone's night mode!" },
+                    { title: "45 Minutes", text: "Work through all 5 challenges!" },
+                    { title: "Review", text: "Who got the most creative shots?" },
+                    { title: "Share", text: "Pick favorites to share!" }
+                ]
+            }
+        ];
+
+        function App() {
+            const [screen, setScreen] = useState('home');
+            const [selectedGame, setSelectedGame] = useState(null);
+            const [filter, setFilter] = useState('all');
+            const [currentStep, setCurrentStep] = useState(0);
+            const [timer, setTimer] = useState(0);
+            const [timerRunning, setTimerRunning] = useState(false);
+
+            useEffect(() => {
+                let interval;
+                if (timerRunning) {
+                    interval = setInterval(() => setTimer(prev => prev + 1), 1000);
+                }
+                return () => clearInterval(interval);
+            }, [timerRunning]);
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            const filteredGames = games.filter(game => {
+                if (filter === 'all') return true;
+                return game.category.includes(filter);
+            });
+
+            if (screen === 'home') {
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6 flex flex-col items-center justify-center">
+                        <div className="text-center max-w-md">
+                            <div className="text-6xl mb-4">🎮</div>
+                            <h1 className="text-4xl font-bold text-gray-900 mb-2">FriendQuest</h1>
+                            <p className="text-xl text-gray-600 mb-8">Never ask "what should we do?" again</p>
+                            
+                            <button
+                                onClick={() => setScreen('library')}
+                                className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-blue-700 mb-8"
+                            >
+                                Start Exploring
+                            </button>
+
+                            <div className="bg-white rounded-lg p-6 shadow-md text-left">
+                                <h2 className="font-semibold text-gray-900 mb-2">What is this?</h2>
+                                <p className="text-gray-600 text-sm mb-4">
+                                    A prototype with 6+ activities to play with friends. Test it this weekend!
+                                </p>
+                                <div className="flex items-start gap-2 text-sm text-gray-600 mb-2">
+                                    <span>✓</span>
+                                    <span>Browse by energy level</span>
+                                </div>
+                                <div className="flex items-start gap-2 text-sm text-gray-600 mb-2">
+                                    <span>✓</span>
+                                    <span>Step-by-step instructions</span>
+                                </div>
+                                <div className="flex items-start gap-2 text-sm text-gray-600">
+                                    <span>✓</span>
+                                    <span>Minimal phone use!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (screen === 'library') {
+                return (
+                    <div className="min-h-screen bg-gray-50">
+                        <div className="bg-white border-b sticky top-0 z-10">
+                            <div className="p-4 flex items-center justify-between">
+                                <button onClick={() => setScreen('home')} className="text-2xl">←</button>
+                                <h1 className="text-xl font-bold">Activities</h1>
+                                <div className="w-10"></div>
+                            </div>
+                            
+                            <div className="px-4 pb-4">
+                                <div className="flex gap-2 overflow-x-auto pb-2">
+                                    <button onClick={() => setFilter('all')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>All</button>
+                                    <button onClick={() => setFilter('active')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'active' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>⚡ Active</button>
+                                    <button onClick={() => setFilter('chill')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'chill' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>😌 Chill</button>
+                                    <button onClick={() => setFilter('outdoor')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'outdoor' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>🌳 Outdoor</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="p-4 space-y-4">
+                            {filteredGames.map(game => (
+                                <div key={game.id} onClick={() => { setSelectedGame(game); setScreen('detail'); }} className="bg-white rounded-lg p-4 shadow-sm border cursor-pointer">
+                                    <div className="flex items-start gap-3">
+                                        <div className="text-3xl">{game.emoji}</div>
+                                        <div className="flex-1">
+                                            <h3 className="font-semibold text-gray-900 mb-1">{game.name}</h3>
+                                            <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-2">
+                                                <span>⏱️ {game.time}</span>
+                                                <span>⚡ {game.energy}</span>
+                                                <span>📍 {game.location}</span>
+                                            </div>
+                                            <p className="text-sm text-gray-600">{game.shortDesc}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            }
+
+            if (screen === 'detail' && selectedGame) {
+                return (
+                    <div className="min-h-screen bg-gray-50">
+                        <div className="bg-white border-b">
+                            <div className="p-4 flex items-center">
+                                <button onClick={() => setScreen('library')} className="text-2xl mr-4">←</button>
+                                <h1 className="text-lg font-bold flex-1">{selectedGame.name}</h1>
+                            </div>
+                        </div>
+
+                        <div className="p-6">
+                            <div className="text-center mb-6">
+                                <div className="text-6xl mb-2">{selectedGame.emoji}</div>
+                                <h2 className="text-2xl font-bold mb-4">{selectedGame.name}</h2>
+                                <div className="flex justify-center gap-4 text-sm text-gray-600 mb-4">
+                                    <span>⏱️ {selectedGame.time}</span>
+                                    <span>👥 {selectedGame.players}</span>
+                                    <span>📍 {selectedGame.location}</span>
+                                </div>
+                                <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                    {selectedGame.energy} Energy
+                                </div>
+                            </div>
+
+                            <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                                <h3 className="font-semibold mb-2">What You'll Do</h3>
+                                <p className="text-gray-600 text-sm">{selectedGame.fullDesc}</p>
+                            </div>
+
+                            <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
+                                <h3 className="font-semibold mb-2">What You Need</h3>
+                                <ul className="space-y-1">
+                                    {selectedGame.whatYouNeed.map((item, idx) => (
+                                        <li key={idx} className="text-sm text-gray-600 flex gap-2">
+                                            <span className="text-blue-600">•</span>
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            <button onClick={() => { setScreen('play'); setCurrentStep(0); setTimer(0); setTimerRunning(false); }} className="w-full bg-blue-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg">
+                                ▶️ Start Game
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (screen === 'play' && selectedGame) {
+                const step = selectedGame.steps[currentStep];
+                const isLastStep = currentStep === selectedGame.steps.length - 1;
+
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+                        <div className="bg-white border-b">
+                            <div className="p-4 flex items-center justify-between">
+                                <button onClick={() => setScreen('detail')} className="text-sm text-gray-600">← Back</button>
+                                <div className="text-lg font-bold">{formatTime(timer)}</div>
+                                <button onClick={() => setTimerRunning(!timerRunning)} className="text-sm text-blue-600">
+                                    {timerRunning ? 'Pause' : 'Start'}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="p-6">
+                            <div className="mb-6">
+                                <div className="text-sm text-gray-600 mb-2">STEP {currentStep + 1} OF {selectedGame.steps.length}</div>
+                                <div className="flex gap-1 mb-4">
+                                    {selectedGame.steps.map((_, idx) => (
+                                        <div key={idx} className={`h-2 flex-1 rounded-full ${idx <= currentStep ? 'bg-blue-600' : 'bg-gray-200'}`}></div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="bg-white rounded-lg p-6 shadow-md mb-6">
+                                <h2 className="text-2xl font-bold mb-4">{step.title}</h2>
+                                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{step.text}</p>
+                            </div>
+
+                            {currentStep === 1 && (
+                                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                                    <p className="text-sm text-yellow-800 font-medium">💡 Put your phone in your pocket now!</p>
+                                </div>
+                            )}
+
+                            <div className="space-y-3">
+                                {!isLastStep ? (
+                                    <button onClick={() => setCurrentStep(currentStep + 1)} className="w-full bg-blue-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg">
+                                        Next Step →
+                                    </button>
+                                ) : (
+                                    <button onClick={() => { setScreen('complete'); setTimerRunning(false); }} className="w-full bg-green-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg">
+                                        Complete Game 🎉
+                                    </button>
+                                )}
+                                {currentStep > 0 && (
+                                    <button onClick={() => setCurrentStep(currentStep - 1)} className="w-full bg-gray-100 text-gray-700 py-3 rounded-full font-semibold">
+                                        ← Previous Step
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (screen === 'complete' && selectedGame) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white p-6 flex flex-col items-center justify-center">
+                        <div className="text-center max-w-md">
+                            <div className="text-6xl mb-4">🎉</div>
+                            <h1 className="text-3xl font-bold mb-2">Great Job!</h1>
+                            <p className="text-gray-600 mb-2">You completed:</p>
+                            <p className="text-xl font-semibold mb-4">{selectedGame.name}</p>
+                            <p className="text-gray-600 mb-8">Time: {formatTime(timer)}</p>
+
+                            <div className="space-y-3">
+                                <button onClick={() => setScreen('library')} className="w-full bg-blue-600 text-white py-3 rounded-full font-semibold">
+                                    Play Another Activity
+                                </button>
+                                <button onClick={() => setScreen('home')} className="w-full bg-gray-200 text-gray-700 py-3 rounded-full font-semibold">
+                                    Back to Home
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return null;
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
