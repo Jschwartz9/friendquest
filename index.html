@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FriendQuest - Never Ask "What Should We Do?" Again</title>
+    <title>FriendQuest - Lexington & W&L Edition</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-    </style>
 </head>
 <body>
     <div id="root"></div>
@@ -19,369 +16,664 @@
         const { useState, useEffect } = React;
 
         const games = [
-            {
-                id: 1,
-                name: "Hidden Gems Bingo",
-                emoji: "🎯",
-                time: "45-60 min",
-                energy: "Moderate",
-                location: "Outdoor",
-                players: "2-8",
-                category: ["outdoor", "moderate"],
-                shortDesc: "Find quirky things in your neighborhood - purple doors, singing people, street art!",
-                fullDesc: "Your group gets a bingo card of things to find in your neighborhood: purple door, dog wearing clothes, street art with the year you were born, someone singing, etc. Race to complete a row.",
-                whatYouNeed: ["Your phones", "Walking-friendly neighborhood", "2-8 people"],
-                steps: [
-                    { title: "Get Your Card", text: "Everyone gets their own bingo card with different items to find." },
-                    { title: "Set Timer", text: "Set a 45-minute timer. Put phones in pockets after this!" },
-                    { title: "Start Searching", text: "Walk around and find items on your card. Take photos as proof!" },
-                    { title: "First to Bingo", text: "First person to complete a row wins!" },
-                    { title: "Share Finds", text: "Come back together and share the funniest things you found." }
-                ]
-            },
-            {
-                id: 2,
-                name: "The $5 Challenge",
-                emoji: "💵",
-                time: "60-90 min",
-                energy: "Moderate",
-                location: "Outdoor",
-                players: "2-10",
-                category: ["outdoor", "moderate"],
-                shortDesc: "Each person gets $5 and a creative mission. Find the weirdest item!",
-                fullDesc: "Each person gets exactly $5 and a mission: find the weirdest item, buy mystery ingredients, or collect things starting with 'M'. Reconvene and share!",
-                whatYouNeed: ["$5 per person/team", "Shopping area nearby", "2-10 people"],
-                steps: [
-                    { title: "Get Your Mission", text: "Mission: Find the WEIRDEST item you can buy for under $5." },
-                    { title: "Set Timer", text: "You have 60 minutes. Go!" },
-                    { title: "Shop Around", text: "Explore stores, markets, or shops. Get creative!" },
-                    { title: "Reconvene", text: "Meet back at your starting point with your purchase." },
-                    { title: "Show & Tell", text: "Present your items. Most creative wins!" }
-                ]
-            },
-            {
-                id: 3,
-                name: "Speed Interviews",
-                emoji: "🏃",
-                time: "30-45 min",
-                energy: "Active",
-                location: "Outdoor",
-                players: "4-10",
-                category: ["outdoor", "active"],
-                shortDesc: "Race to interview strangers about fun topics. Best answers win!",
-                fullDesc: "Split into teams and race to interview 5 strangers: 'best pizza place,' 'hidden gems,' 'weekend plans.' Fastest team with most interesting answer wins!",
-                whatYouNeed: ["4+ people", "Busy public area", "Phones for notes"],
-                steps: [
-                    { title: "Split Teams", text: "Divide into teams of 2-3 people." },
-                    { title: "Get Topic", text: "Topic: 'What's the best hidden gem in this area?'" },
-                    { title: "Start Timer", text: "Set 30 minutes. Interview 5 different people." },
-                    { title: "Interview!", text: "Be friendly, respectful. Take notes!" },
-                    { title: "Compare Answers", text: "Teams share. Most interesting response wins!" }
-                ]
-            },
-            {
-                id: 4,
-                name: "Group Photo Challenge",
-                emoji: "📸",
-                time: "45-60 min",
-                energy: "Moderate",
-                location: "Indoor or Outdoor",
-                players: "3-8",
-                category: ["active", "moderate"],
-                shortDesc: "10 creative photo prompts: mid-jump, human pyramids, perspective tricks!",
-                fullDesc: "Complete 10 creative photo challenges: everyone mid-jump, human pyramid, perspective tricks, shadow art. You vs. the clock!",
-                whatYouNeed: ["3-8 people", "Phone camera", "Open space"],
-                steps: [
-                    { title: "Photo List", text: "Challenge 1: Everyone mid-jump\nChallenge 2: Human pyramid\nChallenge 3: Perspective trick\nChallenge 4: Shadow art\nChallenge 5: Reflection\nChallenge 6: Action freeze\nChallenge 7: Silhouettes\nChallenge 8: Mirror poses\nChallenge 9: Levitation\nChallenge 10: From above" },
-                    { title: "Set Timer", text: "45 minutes to complete all 10!" },
-                    { title: "Take Photos", text: "Work through the list in any order!" },
-                    { title: "Review", text: "Which ones turned out best?" },
-                    { title: "Pick Winner", text: "Vote on most creative!" }
-                ]
-            },
-            {
-                id: 5,
-                name: "Compliment Battle",
-                emoji: "😊",
-                time: "15-30 min",
-                energy: "Chill",
-                location: "Indoor or Outdoor",
-                players: "3-8",
-                category: ["chill"],
-                shortDesc: "Battle with kindness! Compete to give the best compliments.",
-                fullDesc: "Two people face off. Someone gives a topic: shoes, laugh, cooking. Each has 30 seconds to compliment the other. Group votes on who was more creative!",
-                whatYouNeed: ["3+ people", "Anywhere comfortable", "Positive vibes!"],
-                steps: [
-                    { title: "First Battle", text: "Two people step up. Get a topic." },
-                    { title: "Topic Reveal", text: "Topic: 'Their sense of style'" },
-                    { title: "Compliment Round", text: "30 seconds each to compliment the other." },
-                    { title: "Vote", text: "Everyone votes on better compliment." },
-                    { title: "Winner Stays", text: "Winner stays, new challenger!" }
-                ]
-            },
-            {
-                id: 6,
-                name: "Night Photo Safari",
-                emoji: "🌃",
-                time: "45-60 min",
-                energy: "Moderate",
-                location: "Outdoor",
-                players: "2-6",
-                category: ["outdoor", "moderate"],
-                shortDesc: "Capture creative nighttime photos: light trails, reflections, shadows!",
-                fullDesc: "Complete photo challenges: light trails from cars, silhouettes with city lights, creative reflections, shadows. Get artistic!",
-                whatYouNeed: ["2-6 people", "City or lit area", "Phones with night mode"],
-                steps: [
-                    { title: "Photo Challenges", text: "Challenge 1: Light trails\nChallenge 2: Silhouette\nChallenge 3: Reflection\nChallenge 4: Shadow art\nChallenge 5: Mid-jump with lights" },
-                    { title: "Night Mode", text: "Use your phone's night mode!" },
-                    { title: "45 Minutes", text: "Work through all 5 challenges!" },
-                    { title: "Review", text: "Who got the most creative shots?" },
-                    { title: "Share", text: "Pick favorites to share!" }
-                ]
-            }
+          {
+            id: 1,
+            name: "Lexington Bingo",
+            emoji: "🎯",
+            time: "45-60 min",
+            energy: "Moderate",
+            location: "Downtown Lexington",
+            players: "2-8",
+            category: ["outdoor", "moderate"],
+            shortDesc: "Find specific things around downtown Lexington and W&L campus!",
+            fullDesc: "Race to find these specific items around Lexington. First person to complete a row (horizontal, vertical, or diagonal) wins!",
+            whatYouNeed: ["Your phones for photos", "Downtown Lexington access", "2-8 people"],
+            steps: [
+              { title: "Your Bingo Card", text: "LEXINGTON BINGO CARD", isCard: true },
+              { title: "Set Timer & Area", text: "Set 45-minute timer. Search area: Downtown Lexington (Main St to W&L campus). Put phones in pockets after taking photos!" },
+              { title: "Start Searching", text: "Split up or stay together - your choice! Take clear photos of each item you find. Be respectful - ask before photographing people!" },
+              { title: "First to Bingo!", text: "First person to complete a row shouts BINGO and shows their photos. Everyone else has 5 more minutes to finish!" },
+              { title: "Share Finds", text: "Meet back at starting point. Share your funniest photos and stories about what you found!" }
+            ]
+          },
+          {
+            id: 2,
+            name: "Amazing Race: Lexington",
+            emoji: "🏁",
+            time: "60-90 min",
+            energy: "Very Active",
+            location: "W&L Campus & Downtown",
+            players: "4-12",
+            category: ["outdoor", "active"],
+            shortDesc: "Race to checkpoints with challenges at each stop. First team to finish all wins!",
+            fullDesc: "Teams race to 7 checkpoints around W&L and downtown Lexington. Complete each challenge to get the next location. First team through all checkpoints wins!",
+            whatYouNeed: ["4-12 people (teams of 2-4)", "Athletic clothes", "Water", "Phone for time/photos"],
+            steps: [
+              { title: "Teams & Rules", text: "Split into teams of 2-4 people.\n\nRules:\n• Complete challenges in ORDER\n• Must complete challenge before getting next location\n• Take photo/video proof at each checkpoint\n• No skipping or cheating\n• Stay together as a team\n• First team to finish ALL checkpoints wins\n\nReady? Get checkpoint 1!" },
+              { title: "Checkpoint 1: COLONNADE", text: "📍 Location: The Colonnade\n\n🎯 Challenge: JUMPING JACK COLUMNS\nEach team member must do 5 jumping jacks at 5 DIFFERENT columns (25 jumping jacks total per person).\n\n✓ Proof: Take video of your team completing this\n\nNext location revealed when complete! ⬇️" },
+              { title: "Checkpoint 2: LEE CHAPEL", text: "📍 Location: Lee Chapel Steps\n\n🎯 Challenge: SPELL IT OUT\nUse your bodies to spell 'W&L' on the steps. Get creative!\n\n✓ Proof: Take a photo\n\nNext checkpoint... ⬇️" },
+              { title: "Checkpoint 3: COURTHOUSE", text: "📍 Location: Downtown Courthouse\n\n🎯 Challenge: STRANGER HARMONY\nGet 3 different strangers to sing one line of 'Happy Birthday' with your team.\n\n✓ Proof: Video of at least one stranger singing\n\nKeep going! ⬇️" },
+              { title: "Checkpoint 4: RED HEN", text: "📍 Location: Red Hen (Main Street)\n\n🎯 Challenge: RHYME TIME\nEntire team goes inside. Each person must order/ask for something using ONLY RHYMES for 30 seconds.\n\nExample: 'I adore your store, do you have more?' 'What's the tale of your kale for sale?'\n\n✓ Proof: Staff confirmation or video\n\nAlmost there! ⬇️" },
+              { title: "Checkpoint 5: ELROD COMMONS", text: "📍 Location: Elrod Commons (outside)\n\n🎯 Challenge: BALANCE WALK\nEach team member balance-walks the curb for 30 steps WITHOUT falling off. If you fall, start over.\n\n✓ Proof: Video of full team completing it\n\nTwo more! ⬇️" },
+              { title: "Checkpoint 6: WILSON FIELD", text: "📍 Location: Wilson Field\n\n🎯 Challenge: BLEACHER SPRINT\nEntire team sprints up AND down the bleacher stairs TWICE.\n\n✓ Proof: Video of second run\n\nFinal checkpoint! ⬇️" },
+              { title: "Checkpoint 7: LIBERTY HALL", text: "📍 Location: Liberty Hall Ruins\n\n🎯 FINAL CHALLENGE: VICTORY DANCE\nEntire team performs a 30-second choreographed celebration dance!\n\n✓ Proof: Video of your victory dance\n\n🎉 YOU FINISHED! Check your total time and head to finish line (starting location) to compare with other teams!" }
+            ]
+          },
+          {
+            id: 3,
+            name: "W&L Photo Challenge",
+            emoji: "📸",
+            time: "45-60 min",
+            energy: "Moderate",
+            location: "W&L Campus & Downtown",
+            players: "3-8",
+            category: ["active", "moderate"],
+            shortDesc: "10 creative photo challenges at specific W&L and Lexington locations!",
+            fullDesc: "Complete 10 photo challenges at specific locations around W&L campus and downtown Lexington. Get creative!",
+            whatYouNeed: ["3-8 people", "Phone camera", "Access to W&L campus"],
+            steps: [
+              { title: "Your 10 Challenges", text: "Complete these photos:\n\n1. COLONNADE: Everyone mid-jump between columns\n2. LEE CHAPEL: Human pyramid on the steps\n3. ELROD COMMONS: Perspective trick (make someone look tiny)\n4. RED HEN: Everyone pointing at the sign\n5. MAIN STREET: Shadow art on sidewalk\n6. LIBERTY HALL: Spelling 'W&L' with your bodies\n7. ANYWHERE: Reflection photo (window/puddle)\n8. WILSON FIELD: Action freeze-frame\n9. COURTHOUSE: Dramatic silhouette\n10. BACK CAMPUS: Group portrait from above (climb something safe!)\n\nBe respectful of property!" },
+              { title: "Set Timer & Rules", text: "45 minutes to complete ALL 10 photos!\n\nRules:\n• Everyone must be in EVERY photo\n• Can do them in any order\n• Be creative with poses\n• Be safe - no risky climbing\n• Quick, keep moving!\n\nPhone away between shots!" },
+              { title: "Start Shooting!", text: "Work efficiently! Tips:\n• Assign a photographer who rotates\n• Start with closest locations\n• Take multiple shots\n• Have fun with it!\n• Don't overthink it\n\nKeep track of which ones you've done!" },
+              { title: "Review Together", text: "Time's up! Gather around and look through ALL your photos.\n\nWhich ones:\n• Turned out best?\n• Were hardest to get?\n• Made you laugh?\n• Are most creative?" },
+              { title: "Pick Winners", text: "Vote on:\n• Most creative photo\n• Funniest photo\n• Best execution\n• MVP photographer\n\nPost your favorites and tag each other!" }
+            ]
+          },
+          {
+            id: 4,
+            name: "W&L Parkour Challenge",
+            emoji: "🤸",
+            time: "20-30 min",
+            energy: "Very Active",
+            location: "W&L Campus",
+            players: "2-6",
+            category: ["outdoor", "active"],
+            shortDesc: "Touch benches, jump steps, balance curbs - complete the W&L obstacle course!",
+            fullDesc: "Follow a route around W&L campus with physical challenges at each stop. Touch benches, jump stairs, balance-walk. Fastest time wins!",
+            whatYouNeed: ["2-6 people", "W&L campus access", "Athletic clothes", "Water"],
+            steps: [
+              { title: "Your Route & Challenges", text: "Start: Lee Chapel Steps\n\n1. Touch all 4 benches around Lee Chapel\n2. Run to Colonnade - touch 5 columns\n3. Jump up Wilson Field bleacher steps (2 at a time)\n4. Balance-walk the curb by Elrod Commons (20 steps)\n5. Sprint to Liberty Hall - high-five the statue\n6. Do 10 jumping jacks at Mudd Hall\n7. Run back to Lee Chapel\n\nFinish: Lee Chapel Steps\n\nBe safe! No reckless moves." },
+              { title: "Safety First", text: "Important rules:\n\n• Only do what's safe and comfortable\n• No dangerous climbing\n• Watch for pedestrians\n• Stay on paths\n• If something feels unsafe, skip it\n• Hydrate!\n\nThis is for fun, not injury 😊" },
+              { title: "Time Trial", text: "One person goes at a time!\n\nEveryone else:\n• Times them with phone\n• Cheers them on\n• Verifies they hit all checkpoints\n• Takes video (optional but fun!)\n\nRest between runs if needed!" },
+              { title: "Everyone's Turn", text: "Each person completes the full course.\n\nKeep track of:\n• Everyone's times\n• Who had the smoothest run\n• Funniest moment\n• Best effort\n\nRecord all times - you'll compare at the end!" },
+              { title: "Winners & Celebration", text: "Times:\n1. _____ : ___ min\n2. _____ : ___ min\n3. _____ : ___ min\n\nFastest time wins!\n\nBut also celebrate:\n• Best form\n• Most determined\n• Funniest run\n• Everyone who finished\n\nGrab water and recover together!" }
+            ]
+          },
+          {
+            id: 5,
+            name: "Dream Vacation Planning",
+            emoji: "✈️",
+            time: "30-45 min",
+            energy: "Chill",
+            location: "Anywhere comfortable",
+            players: "3-8",
+            category: ["chill"],
+            shortDesc: "Collaboratively plan the perfect dream trip. Get creative and detailed!",
+            fullDesc: "Pick a destination and plan the ultimate vacation together. Each person handles a different aspect. Then present your dream itinerary!",
+            whatYouNeed: ["3-8 people", "Comfortable spot (dorm, coffee shop, outside)", "Phones for research (optional)"],
+            steps: [
+              { title: "Choose Your Destination", text: "Pick your dream destination:\n\nOption A: Vote together\nOption B: Draw randomly from these:\n• Tokyo, Japan\n• Iceland\n• New Zealand\n• Italy\n• Thailand\n• Peru (Machu Picchu)\n• Greece\n• Morocco\n• Scotland\n• Costa Rica\n\nOr pick your own!\n\nYou have a $5,000 budget total.\nTrip length: 1 week" },
+              { title: "Assign Roles", text: "Each person handles one aspect:\n\n🏨 Person 1: ACCOMMODATION\n(Where to stay, neighborhood, type)\n\n🍽️ Person 2: FOOD & DINING\n(Restaurants, street food, must-try dishes)\n\n🎯 Person 3: ACTIVITIES & EXCURSIONS\n(Day trips, tours, experiences)\n\n📍 Person 4: MUST-SEE SPOTS\n(Landmarks, hidden gems, photo ops)\n\n💰 Person 5: BUDGET BREAKDOWN\n(How to split the $5k)\n\n🎒 Person 6: TRAVEL STYLE & VIBE\n(Luxury? Backpacking? Adventure?)\n\nExtra people = extra creativity!" },
+              { title: "Research & Plan (20 min)", text: "You have 20 minutes!\n\nEach person researches their aspect:\n• Use your phones to look things up\n• Take notes\n• Be creative and specific\n• Think about what would make this trip AMAZING\n\nTips:\n• Dream big but be somewhat realistic\n• Think about the GROUP'S interests\n• Look for unique experiences\n• Consider logistics\n\nTimer starts now!" },
+              { title: "Present Your Plans", text: "Time to present!\n\nGo around in order:\n1. Travel Style person sets the vibe\n2. Accommodation person describes where you're staying\n3. Food person shares dining plans\n4. Activities person outlines the adventures\n5. Must-See person highlights the spots\n6. Budget person breaks down the costs\n\nEveryone can ask questions and discuss!" },
+              { title: "Finalize & Decide", text: "Group discussion:\n\n• What sounds most exciting?\n• What would you change?\n• What's the one thing we MUST do?\n• Would we actually take this trip?\n\nOptional:\n• Take a vote on whether to actually save for this trip\n• Set a group goal to make it happen\n• Plan a mini local version\n\nDream together! ✨" }
+            ]
+          },
+          {
+            id: 6,
+            name: "W&L Time Capsule",
+            emoji: "⏰",
+            time: "30-45 min",
+            energy: "Chill",
+            location: "Anywhere comfortable",
+            players: "3-10",
+            category: ["chill"],
+            shortDesc: "Capture what you want to remember about W&L. Save for senior year!",
+            fullDesc: "Answer prompts about your W&L experience. Record memories you never want to forget. Perfect for looking back later!",
+            whatYouNeed: ["3-10 people", "Comfortable spot", "Phones to record (optional)", "Paper & pen (optional)"],
+            steps: [
+              { title: "Time Capsule Setup", text: "Welcome to your W&L Time Capsule!\n\nHow this works:\n• Go around the circle\n• Each person answers each prompt\n• Take your time, be honest\n• Optional: Record audio or write down answers\n• Save for senior year or reunion\n\nThis is about preserving memories that matter.\n\nReady? Let's capture this moment." },
+              { title: "Round 1: Memories", text: "Prompt 1: 'Something I never want to forget about W&L'\n\nEveryone shares.\n\nPrompt 2: 'A place on campus I'll miss'\n\nEveryone shares.\n\nPrompt 3: 'A tradition I hope never changes'\n\nEveryone shares.\n\nTake your time. These are the moments that stick with you." },
+              { title: "Round 2: People", text: "Prompt 4: 'Someone who made a difference in my time here' (doesn't have to be in the room)\n\nEveryone shares.\n\nPrompt 5: 'A friendship I didn't expect'\n\nEveryone shares.\n\nPrompt 6: 'Something I learned from someone in this group'\n\nEveryone shares.\n\nBe specific. Names and stories matter." },
+              { title: "Round 3: Growth", text: "Prompt 7: 'Something I learned outside the classroom'\n\nEveryone shares.\n\nPrompt 8: 'A moment that defined my time at W&L'\n\nEveryone shares.\n\nPrompt 9: 'How I've changed since freshman year'\n\nEveryone shares.\n\nThis is where it gets real." },
+              { title: "Round 4: Looking Forward", text: "Prompt 10: 'Advice I'd give to incoming freshmen'\n\nEveryone shares.\n\nPrompt 11: 'Something I want to accomplish before I leave W&L'\n\nEveryone shares.\n\nPrompt 12: 'How I hope to remember this time in my life'\n\nEveryone shares.\n\nSeal the capsule. Open it senior year. 💙" }
+            ]
+          },
+          {
+            id: 7,
+            name: "Question Roulette",
+            emoji: "🎲",
+            time: "30-60 min",
+            energy: "Chill",
+            location: "Anywhere comfortable",
+            players: "3-10",
+            category: ["chill"],
+            shortDesc: "Deep questions with 3 intensity levels. Spin and answer - or pass!",
+            fullDesc: "Surface, Deep, or Spicy questions. Pick your level and answer honestly. Great conversations guaranteed!",
+            whatYouNeed: ["3-10 people", "Comfortable spot", "Open minds", "No judgment zone!"],
+            steps: [
+              { title: "How to Play", text: "Question Roulette has 3 levels:\n\n🌊 SURFACE - Light & fun\n🌀 DEEP - Real & meaningful  \n🔥 SPICY - Vulnerable & honest\n\nHow it works:\n1. Someone picks a level\n2. App shows a question\n3. Everyone answers (or can pass)\n4. Discuss or move to next\n5. Rotate who picks the level\n\nRules:\n• No judgment\n• You can always pass\n• What's said here, stays here\n• Listen more than you talk" },
+              { title: "SURFACE Questions", text: "Pick one (or go through all!):\n\n1. What's your go-to study snack?\n2. Morning person or night owl?\n3. Favorite spot in Lexington?\n4. Best class you've taken at W&L?\n5. If you could live in any dorm, which one?\n6. Coffee or tea?\n7. What's your pump-up song?\n8. Favorite dining hall meal?\n9. Best stress relief?\n10. What show are you binge-watching?\n\nEveryone answer the same question!" },
+              { title: "DEEP Questions", text: "Pick one (get ready for real talk):\n\n1. What's something you're working on about yourself?\n2. When do you feel most alive?\n3. What assumption do people make about you that's wrong?\n4. What are you most grateful for right now?\n5. What's a fear you're trying to overcome?\n6. What does success mean to you?\n7. What's something you believe that most people don't?\n8. Who's had the biggest influence on who you are?\n9. What's something you're proud of that others might not know?\n10. What do you need more of in your life?\n\nTake your time. These matter." },
+              { title: "SPICY Questions", text: "Pick one (only if the group is ready!):\n\n1. What's a friendship that didn't work out and why?\n2. What's your biggest insecurity right now?\n3. Who in this group have you learned the most from?\n4. What's something you've never told anyone?\n5. What do you wish you could tell your younger self?\n6. What's a mistake you're glad you made?\n7. Who do you need to forgive (including yourself)?\n8. What's something you judge others for that you also do?\n9. What are you avoiding right now?\n10. What's a hard truth you've recently accepted?\n\nVulnerability = strength.\nYou can always pass." },
+              { title: "Keep Playing!", text: "Mix it up!\n\n• Start with Surface\n• Move to Deep when ready\n• Only do Spicy if everyone's comfortable\n• Can stay at one level or bounce around\n• Go until you're talked out\n\nBest conversations happen when:\n✓ You're honest\n✓ You listen deeply\n✓ You don't judge\n✓ You're present\n\nThese are the moments you remember. 💙" }
+            ]
+          },
+          {
+            id: 8,
+            name: "Fitness Bingo Challenge",
+            emoji: "💪",
+            time: "45-60 min",
+            energy: "Very Active",
+            location: "W&L Campus",
+            players: "2-8",
+            category: ["outdoor", "active"],
+            shortDesc: "Interactive fitness bingo! Complete exercises at W&L locations. First to 3 in a row wins!",
+            fullDesc: "Like bingo but with workouts! Complete fitness challenges at specific campus locations. Tap squares as you finish them. First to get 3 in a row wins!",
+            whatYouNeed: ["2-8 people", "Athletic clothes", "Water", "W&L campus access"],
+            steps: [
+              { title: "Your Fitness Bingo Card", text: "FITNESS BINGO CARD", isFitnessCard: true },
+              { title: "Rules & Strategy", text: "Rules:\n• Complete exercises at the EXACT locations shown\n• Must do full reps/time\n• Take photo/video proof\n• Tap square when complete\n• First to 3 in a row (any direction) wins!\n\nStrategy tips:\n• Plan your route efficiently\n• Start with closest locations\n• Warm up first!\n• Stay hydrated\n\nReady? Start!" },
+              { title: "Safety & Modifications", text: "Safety first:\n• Warm up before intense exercises\n• Modify if needed (knee push-ups, etc.)\n• Stop if something hurts\n• Drink water between exercises\n• Rest when needed\n\nThis is for fun - listen to your body!" },
+              { title: "Compete!", text: "Time to move!\n\nTips:\n• Work efficiently between locations\n• Keep good form over speed\n• Cheer each other on\n• Take breaks between exercises\n\nRemember: First to 3 in a row wins!\n\nPut phone away and get moving!" },
+              { title: "Victory!", text: "Did you get BINGO?\n\n🏆 Compare times\n🏆 Who had best form?\n🏆 Hardest exercise?\n🏆 Most fun?\n\nGreat workout! Stretch and hydrate!\n\nWant to keep going? Try completing the whole card!" }
+            ]
+          },
+          {
+            id: 9,
+            name: "Campus Relay Race",
+            emoji: "🏃‍♂️",
+            time: "30-45 min",
+            energy: "Very Active",
+            location: "W&L Campus",
+            players: "6-12",
+            category: ["outdoor", "active"],
+            shortDesc: "Epic team relay! Each person completes a challenge, tags next teammate. Fastest team wins!",
+            fullDesc: "Teams race through 6 challenges around W&L campus. Each person completes one challenge, then tags the next teammate. Pure cardio and team coordination!",
+            whatYouNeed: ["6-12 people (teams of 3-6)", "Athletic clothes", "Water", "Stopwatch"],
+            steps: [
+              { title: "Teams & Starting Line", text: "Split into teams of 3-6 people.\n\nStarting Line: Lee Chapel Steps\n\nTeam roles:\n• Person 1: Challenge A\n• Person 2: Challenge B\n• Person 3: Challenge C\n• Person 4: Challenge D\n• Person 5: Challenge E\n• Person 6: Challenge F\n\nEach person MUST complete their challenge before tagging next person!\n\nFastest team through all challenges wins!" },
+              { title: "Challenge A: Colonnade Sprint", text: "👤 PERSON 1\n\n📍 Lee Chapel → Colonnade\n\n🎯 Challenge:\n1. Sprint to Colonnade\n2. Touch 10 different columns\n3. Sprint back to Lee Chapel\n4. TAG PERSON 2!\n\nGo go go!" },
+              { title: "Challenge B: Burpee Battle", text: "👤 PERSON 2\n\nWait for tag!\n\n📍 At Lee Chapel\n\n🎯 Challenge:\n1. Do 15 burpees RIGHT HERE\n2. TAG PERSON 3!\n\nPush through!" },
+              { title: "Challenge C: Elrod Balance Walk", text: "👤 PERSON 3\n\nWait for tag!\n\n📍 Lee Chapel → Elrod Commons\n\n🎯 Challenge:\n1. Sprint to Elrod\n2. Balance-walk the curb for 40 steps (if you fall, restart)\n3. Sprint back to Lee Chapel\n4. TAG PERSON 4!\n\nStay focused!" },
+              { title: "Challenge D: Liberty Lunges", text: "👤 PERSON 4\n\nWait for tag!\n\n📍 Lee Chapel → Liberty Hall\n\n🎯 Challenge:\n1. Sprint to Liberty Hall Ruins\n2. Do 10 lunges per leg (20 total)\n3. Sprint back\n4. TAG PERSON 5!\n\nFeel the burn!" },
+              { title: "Challenge E: Wilson Field Sprint", text: "👤 PERSON 5\n\nWait for tag!\n\n📍 Lee Chapel → Wilson Field\n\n🎯 Challenge:\n1. Sprint to Wilson Field\n2. Run ONE full lap around track\n3. Sprint back to Lee Chapel\n4. TAG PERSON 6 (or finish if last person)!\n\nAlmost done!" },
+              { title: "Challenge F: Final Push", text: "👤 PERSON 6 (if you have 6 people)\n\nWait for tag!\n\n📍 At Lee Chapel\n\n🎯 Challenge:\n1. Do 25 jumping jacks\n2. Sprint around Lee Chapel building (full circle)\n3. Cross finish line!\n\n🏁 STOP THE TIMER!\n\nTeam time: _______\n\nCompare with other teams!\n\nCelebrate and hydrate! 🎉" }
+            ]
+          }
         ];
 
         function App() {
-            const [screen, setScreen] = useState('home');
-            const [selectedGame, setSelectedGame] = useState(null);
-            const [filter, setFilter] = useState('all');
-            const [currentStep, setCurrentStep] = useState(0);
-            const [timer, setTimer] = useState(0);
-            const [timerRunning, setTimerRunning] = useState(false);
+          const [screen, setScreen] = useState('home');
+          const [selectedGame, setSelectedGame] = useState(null);
+          const [filter, setFilter] = useState('all');
+          const [currentStep, setCurrentStep] = useState(0);
+          const [timer, setTimer] = useState(0);
+          const [timerRunning, setTimerRunning] = useState(false);
+          const [bingoCard, setBingoCard] = useState([
+            [false, false, false],
+            [false, true, false],
+            [false, false, false]
+          ]);
+          const [fitnessCard, setFitnessCard] = useState([
+            [false, false, false],
+            [false, true, false],
+            [false, false, false]
+          ]);
 
-            useEffect(() => {
-                let interval;
-                if (timerRunning) {
-                    interval = setInterval(() => setTimer(prev => prev + 1), 1000);
-                }
-                return () => clearInterval(interval);
-            }, [timerRunning]);
-
-            const formatTime = (seconds) => {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                return `${mins}:${secs.toString().padStart(2, '0')}`;
-            };
-
-            const filteredGames = games.filter(game => {
-                if (filter === 'all') return true;
-                return game.category.includes(filter);
-            });
-
-            if (screen === 'home') {
-                return (
-                    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6 flex flex-col items-center justify-center">
-                        <div className="text-center max-w-md">
-                            <div className="text-6xl mb-4">🎮</div>
-                            <h1 className="text-4xl font-bold text-gray-900 mb-2">FriendQuest</h1>
-                            <p className="text-xl text-gray-600 mb-8">Never ask "what should we do?" again</p>
-                            
-                            <button
-                                onClick={() => setScreen('library')}
-                                className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-blue-700 mb-8"
-                            >
-                                Start Exploring
-                            </button>
-
-                            <div className="bg-white rounded-lg p-6 shadow-md text-left">
-                                <h2 className="font-semibold text-gray-900 mb-2">What is this?</h2>
-                                <p className="text-gray-600 text-sm mb-4">
-                                    A prototype with 6+ activities to play with friends. Test it this weekend!
-                                </p>
-                                <div className="flex items-start gap-2 text-sm text-gray-600 mb-2">
-                                    <span>✓</span>
-                                    <span>Browse by energy level</span>
-                                </div>
-                                <div className="flex items-start gap-2 text-sm text-gray-600 mb-2">
-                                    <span>✓</span>
-                                    <span>Step-by-step instructions</span>
-                                </div>
-                                <div className="flex items-start gap-2 text-sm text-gray-600">
-                                    <span>✓</span>
-                                    <span>Minimal phone use!</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                );
+          useEffect(() => {
+            let interval;
+            if (timerRunning) {
+              interval = setInterval(() => setTimer(prev => prev + 1), 1000);
             }
+            return () => clearInterval(interval);
+          }, [timerRunning]);
 
-            if (screen === 'library') {
-                return (
-                    <div className="min-h-screen bg-gray-50">
-                        <div className="bg-white border-b sticky top-0 z-10">
-                            <div className="p-4 flex items-center justify-between">
-                                <button onClick={() => setScreen('home')} className="text-2xl">←</button>
-                                <h1 className="text-xl font-bold">Activities</h1>
-                                <div className="w-10"></div>
-                            </div>
-                            
-                            <div className="px-4 pb-4">
-                                <div className="flex gap-2 overflow-x-auto pb-2">
-                                    <button onClick={() => setFilter('all')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>All</button>
-                                    <button onClick={() => setFilter('active')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'active' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>⚡ Active</button>
-                                    <button onClick={() => setFilter('chill')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'chill' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>😌 Chill</button>
-                                    <button onClick={() => setFilter('outdoor')} className={`px-4 py-2 rounded-full text-sm font-medium ${filter === 'outdoor' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>🌳 Outdoor</button>
-                                </div>
-                            </div>
-                        </div>
+          const formatTime = (seconds) => {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+          };
 
-                        <div className="p-4 space-y-4">
-                            {filteredGames.map(game => (
-                                <div key={game.id} onClick={() => { setSelectedGame(game); setScreen('detail'); }} className="bg-white rounded-lg p-4 shadow-sm border cursor-pointer">
-                                    <div className="flex items-start gap-3">
-                                        <div className="text-3xl">{game.emoji}</div>
-                                        <div className="flex-1">
-                                            <h3 className="font-semibold text-gray-900 mb-1">{game.name}</h3>
-                                            <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-2">
-                                                <span>⏱️ {game.time}</span>
-                                                <span>⚡ {game.energy}</span>
-                                                <span>📍 {game.location}</span>
-                                            </div>
-                                            <p className="text-sm text-gray-600">{game.shortDesc}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
+          const toggleBingoSquare = (row, col) => {
+            const newCard = bingoCard.map((r, i) => 
+              r.map((cell, j) => (i === row && j === col ? !cell : cell))
+            );
+            setBingoCard(newCard);
+          };
+
+          const toggleFitnessSquare = (row, col) => {
+            const newCard = fitnessCard.map((r, i) => 
+              r.map((cell, j) => (i === row && j === col ? !cell : cell))
+            );
+            setFitnessCard(newCard);
+          };
+
+          const checkBingo = () => {
+            for (let i = 0; i < 3; i++) {
+              if (bingoCard[i].every(cell => cell)) return true;
             }
-
-            if (screen === 'detail' && selectedGame) {
-                return (
-                    <div className="min-h-screen bg-gray-50">
-                        <div className="bg-white border-b">
-                            <div className="p-4 flex items-center">
-                                <button onClick={() => setScreen('library')} className="text-2xl mr-4">←</button>
-                                <h1 className="text-lg font-bold flex-1">{selectedGame.name}</h1>
-                            </div>
-                        </div>
-
-                        <div className="p-6">
-                            <div className="text-center mb-6">
-                                <div className="text-6xl mb-2">{selectedGame.emoji}</div>
-                                <h2 className="text-2xl font-bold mb-4">{selectedGame.name}</h2>
-                                <div className="flex justify-center gap-4 text-sm text-gray-600 mb-4">
-                                    <span>⏱️ {selectedGame.time}</span>
-                                    <span>👥 {selectedGame.players}</span>
-                                    <span>📍 {selectedGame.location}</span>
-                                </div>
-                                <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                                    {selectedGame.energy} Energy
-                                </div>
-                            </div>
-
-                            <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
-                                <h3 className="font-semibold mb-2">What You'll Do</h3>
-                                <p className="text-gray-600 text-sm">{selectedGame.fullDesc}</p>
-                            </div>
-
-                            <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
-                                <h3 className="font-semibold mb-2">What You Need</h3>
-                                <ul className="space-y-1">
-                                    {selectedGame.whatYouNeed.map((item, idx) => (
-                                        <li key={idx} className="text-sm text-gray-600 flex gap-2">
-                                            <span className="text-blue-600">•</span>
-                                            <span>{item}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <button onClick={() => { setScreen('play'); setCurrentStep(0); setTimer(0); setTimerRunning(false); }} className="w-full bg-blue-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg">
-                                ▶️ Start Game
-                            </button>
-                        </div>
-                    </div>
-                );
+            for (let j = 0; j < 3; j++) {
+              if (bingoCard.every(row => row[j])) return true;
             }
+            if (bingoCard[0][0] && bingoCard[1][1] && bingoCard[2][2]) return true;
+            if (bingoCard[0][2] && bingoCard[1][1] && bingoCard[2][0]) return true;
+            return false;
+          };
 
-            if (screen === 'play' && selectedGame) {
-                const step = selectedGame.steps[currentStep];
-                const isLastStep = currentStep === selectedGame.steps.length - 1;
+          const checkFitnessBingo = () => {
+            for (let i = 0; i < 3; i++) {
+              if (fitnessCard[i].every(cell => cell)) return true;
+            }
+            for (let j = 0; j < 3; j++) {
+              if (fitnessCard.every(row => row[j])) return true;
+            }
+            if (fitnessCard[0][0] && fitnessCard[1][1] && fitnessCard[2][2]) return true;
+            if (fitnessCard[0][2] && fitnessCard[1][1] && fitnessCard[2][0]) return true;
+            return false;
+          };
 
-                return (
-                    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-                        <div className="bg-white border-b">
-                            <div className="p-4 flex items-center justify-between">
-                                <button onClick={() => setScreen('detail')} className="text-sm text-gray-600">← Back</button>
-                                <div className="text-lg font-bold">{formatTime(timer)}</div>
-                                <button onClick={() => setTimerRunning(!timerRunning)} className="text-sm text-blue-600">
-                                    {timerRunning ? 'Pause' : 'Start'}
-                                </button>
-                            </div>
+          const resetBingo = () => {
+            setBingoCard([
+              [false, false, false],
+              [false, true, false],
+              [false, false, false]
+            ]);
+          };
+
+          const resetFitnessBingo = () => {
+            setFitnessCard([
+              [false, false, false],
+              [false, true, false],
+              [false, false, false]
+            ]);
+          };
+
+          const filteredGames = games.filter(game => {
+            if (filter === 'all') return true;
+            return game.category.includes(filter);
+          });
+
+          if (screen === 'home') {
+            return (
+              <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6 flex flex-col items-center justify-center">
+                <div className="text-center max-w-md">
+                  <div className="text-6xl mb-4">🎮</div>
+                  <h1 className="text-4xl font-bold text-gray-900 mb-2">FriendQuest</h1>
+                  <p className="text-sm text-blue-600 font-semibold mb-2">Lexington & W&L Edition</p>
+                  <p className="text-xl text-gray-600 mb-8">Never ask "what should we do?" again</p>
+                  
+                  <button
+                    onClick={() => setScreen('library')}
+                    className="bg-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-blue-700 transition-all mb-8"
+                  >
+                    Start Exploring
+                  </button>
+
+                  <div className="bg-white rounded-lg p-6 shadow-md text-left">
+                    <h2 className="font-semibold text-gray-900 mb-2">What is this?</h2>
+                    <p className="text-gray-600 text-sm mb-4">
+                      9 activities designed for W&L students in Lexington! Interactive games with real locations.
+                    </p>
+                    <div className="flex items-start gap-2 text-sm text-gray-600 mb-2">
+                      <span>✓</span>
+                      <span>Interactive bingo cards - tap as you go!</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm text-gray-600 mb-2">
+                      <span>✓</span>
+                      <span>Amazing Race, Relay Race, Fitness Bingo & more</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm text-gray-600">
+                      <span>✓</span>
+                      <span>Put your phone away and explore!</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          if (screen === 'library') {
+            return (
+              <div className="min-h-screen bg-gray-50">
+                <div className="bg-white border-b sticky top-0 z-10">
+                  <div className="p-4 flex items-center justify-between">
+                    <button onClick={() => setScreen('home')} className="text-2xl">←</button>
+                    <h1 className="text-xl font-bold">Activities</h1>
+                    <div className="w-10"></div>
+                  </div>
+                  
+                  <div className="px-4 pb-4">
+                    <div className="flex gap-2 overflow-x-auto pb-2">
+                      <button onClick={() => setFilter('all')} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>All</button>
+                      <button onClick={() => setFilter('active')} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${filter === 'active' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>⚡ Active</button>
+                      <button onClick={() => setFilter('chill')} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${filter === 'chill' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>😌 Chill</button>
+                      <button onClick={() => setFilter('outdoor')} className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${filter === 'outdoor' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}>🌳 Outdoor</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 space-y-4">
+                  {filteredGames.map(game => (
+                    <div key={game.id} onClick={() => { setSelectedGame(game); setScreen('detail'); }} className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 cursor-pointer hover:shadow-md transition-shadow">
+                      <div className="flex items-start gap-3">
+                        <div className="text-3xl">{game.emoji}</div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-gray-900 mb-1">{game.name}</h3>
+                          <div className="flex flex-wrap gap-2 text-xs text-gray-600 mb-2">
+                            <span>⏱️ {game.time}</span>
+                            <span>⚡ {game.energy}</span>
+                            <span>📍 {game.location}</span>
+                          </div>
+                          <p className="text-sm text-gray-600">{game.shortDesc}</p>
                         </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          }
 
-                        <div className="p-6">
-                            <div className="mb-6">
-                                <div className="text-sm text-gray-600 mb-2">STEP {currentStep + 1} OF {selectedGame.steps.length}</div>
-                                <div className="flex gap-1 mb-4">
-                                    {selectedGame.steps.map((_, idx) => (
-                                        <div key={idx} className={`h-2 flex-1 rounded-full ${idx <= currentStep ? 'bg-blue-600' : 'bg-gray-200'}`}></div>
-                                    ))}
+          if (screen === 'detail' && selectedGame) {
+            return (
+              <div className="min-h-screen bg-gray-50">
+                <div className="bg-white border-b">
+                  <div className="p-4 flex items-center">
+                    <button onClick={() => setScreen('library')} className="text-2xl mr-4">←</button>
+                    <h1 className="text-lg font-bold flex-1">{selectedGame.name}</h1>
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="text-center mb-6">
+                    <div className="text-6xl mb-2">{selectedGame.emoji}</div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">{selectedGame.name}</h2>
+                    
+                    <div className="flex justify-center gap-4 text-sm text-gray-600 mb-4">
+                      <span>⏱️ {selectedGame.time}</span>
+                      <span>👥 {selectedGame.players}</span>
+                      <span>📍 {selectedGame.location}</span>
+                    </div>
+
+                    <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                      {selectedGame.energy} Energy
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
+                    <h3 className="font-semibold text-gray-900 mb-2">What You'll Do</h3>
+                    <p className="text-gray-600 text-sm">{selectedGame.fullDesc}</p>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4 mb-6 shadow-sm">
+                    <h3 className="font-semibold text-gray-900 mb-2">What You Need</h3>
+                    <ul className="space-y-1">
+                      {selectedGame.whatYouNeed.map((item, idx) => (
+                        <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
+                          <span className="text-blue-600">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setScreen('play');
+                      setCurrentStep(0);
+                      setTimer(0);
+                      setTimerRunning(false);
+                      if (selectedGame.id === 1) resetBingo();
+                      if (selectedGame.id === 8) resetFitnessBingo();
+                    }}
+                    className="w-full bg-blue-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg hover:bg-blue-700 transition-all"
+                  >
+                    ▶️ Start Game
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          if (screen === 'play' && selectedGame) {
+            const step = selectedGame.steps[currentStep];
+            const isLastStep = currentStep === selectedGame.steps.length - 1;
+
+            return (
+              <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+                <div className="bg-white border-b">
+                  <div className="p-4 flex items-center justify-between">
+                    <button onClick={() => setScreen('detail')} className="text-sm text-gray-600">← Back</button>
+                    <div className="text-lg font-bold">{formatTime(timer)}</div>
+                    <button
+                      onClick={() => setTimerRunning(!timerRunning)}
+                      className="text-sm text-blue-600 font-semibold"
+                    >
+                      {timerRunning ? 'Pause' : 'Start'}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="mb-6">
+                    <div className="text-sm text-gray-600 mb-2">
+                      STEP {currentStep + 1} OF {selectedGame.steps.length}
+                    </div>
+                    <div className="flex gap-1 mb-4">
+                      {selectedGame.steps.map((_, idx) => (
+                        <div
+                          key={idx}
+                          className={`h-2 flex-1 rounded-full ${
+                            idx <= currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-6 shadow-md mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">{step.title}</h2>
+                    {step.isCard ? (
+                      <div>
+                        {checkBingo() && (
+                          <div className="bg-green-100 border-2 border-green-500 rounded-lg p-4 mb-4">
+                            <p className="text-2xl font-bold text-green-800 text-center">🎉 BINGO! 🎉</p>
+                            <p className="text-sm text-green-700 text-center">You got 3 in a row!</p>
+                          </div>
+                        )}
+                        <div className="grid grid-cols-3 gap-2 mb-4">
+                          {[
+                            { letter: 'B', text: 'W&L Gear', row: 0, col: 0 },
+                            { letter: 'I', text: 'Dog on Main St', row: 0, col: 1 },
+                            { letter: 'N', text: 'Colonnade', row: 0, col: 2 },
+                            { letter: 'G', text: 'Red Door', row: 1, col: 0 },
+                            { letter: 'FREE', text: '😊', row: 1, col: 1, isFree: true },
+                            { letter: 'O', text: 'Vintage Car', row: 1, col: 2 },
+                            { letter: 'B', text: 'Blue Bench', row: 2, col: 0 },
+                            { letter: 'I', text: 'Street Art', row: 2, col: 1 },
+                            { letter: 'N', text: 'Bicycle', row: 2, col: 2 }
+                          ].map((square, idx) => {
+                            const isMarked = bingoCard[square.row][square.col];
+                            return (
+                              <button
+                                key={idx}
+                                onClick={() => !square.isFree && toggleBingoSquare(square.row, square.col)}
+                                disabled={square.isFree}
+                                className={`border-2 rounded p-3 text-center transition-all ${
+                                  square.isFree 
+                                    ? 'bg-yellow-50 border-yellow-400 cursor-default'
+                                    : isMarked
+                                    ? 'bg-green-100 border-green-500 shadow-md'
+                                    : 'bg-blue-50 border-blue-300 hover:bg-blue-100 cursor-pointer active:scale-95'
+                                }`}
+                              >
+                                <div className={`text-xs font-semibold mb-1 ${
+                                  square.isFree ? 'text-yellow-800' : isMarked ? 'text-green-800' : 'text-blue-800'
+                                }`}>
+                                  {square.letter}
                                 </div>
-                            </div>
-
-                            <div className="bg-white rounded-lg p-6 shadow-md mb-6">
-                                <h2 className="text-2xl font-bold mb-4">{step.title}</h2>
-                                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{step.text}</p>
-                            </div>
-
-                            {currentStep === 1 && (
-                                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                                    <p className="text-sm text-yellow-800 font-medium">💡 Put your phone in your pocket now!</p>
+                                <div className={`text-sm ${isMarked ? 'font-bold text-green-900' : 'text-gray-700'}`}>
+                                  {square.text}
                                 </div>
-                            )}
-
-                            <div className="space-y-3">
-                                {!isLastStep ? (
-                                    <button onClick={() => setCurrentStep(currentStep + 1)} className="w-full bg-blue-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg">
-                                        Next Step →
-                                    </button>
-                                ) : (
-                                    <button onClick={() => { setScreen('complete'); setTimerRunning(false); }} className="w-full bg-green-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg">
-                                        Complete Game 🎉
-                                    </button>
+                                {isMarked && !square.isFree && (
+                                  <div className="text-lg mt-1">✓</div>
                                 )}
-                                {currentStep > 0 && (
-                                    <button onClick={() => setCurrentStep(currentStep - 1)} className="w-full bg-gray-100 text-gray-700 py-3 rounded-full font-semibold">
-                                        ← Previous Step
-                                    </button>
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <p className="text-sm text-gray-600 text-center mb-2">
+                          📸 Tap squares when you find each item!
+                        </p>
+                        <p className="text-sm font-semibold text-blue-600 text-center">
+                          First to get 3 in a row wins!
+                        </p>
+                        <button
+                          onClick={resetBingo}
+                          className="mt-4 w-full bg-gray-200 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-300"
+                        >
+                          Reset Card
+                        </button>
+                      </div>
+                    ) : step.isFitnessCard ? (
+                      <div>
+                        {checkFitnessBingo() && (
+                          <div className="bg-green-100 border-2 border-green-500 rounded-lg p-4 mb-4">
+                            <p className="text-2xl font-bold text-green-800 text-center">💪 BINGO! 💪</p>
+                            <p className="text-sm text-green-700 text-center">You completed 3 in a row!</p>
+                          </div>
+                        )}
+                        <div className="grid grid-cols-3 gap-2 mb-4">
+                          {[
+                            { text: '25 Push-ups\n@ Colonnade', row: 0, col: 0 },
+                            { text: '50 Jumping Jacks\n@ Elrod', row: 0, col: 1 },
+                            { text: '1 Min Plank\n@ Lee Chapel', row: 0, col: 2 },
+                            { text: '30 Squats\n@ Liberty Hall', row: 1, col: 0 },
+                            { text: 'FREE\n💪', row: 1, col: 1, isFree: true },
+                            { text: 'Stairs 2x\n@ Wilson Field', row: 1, col: 2 },
+                            { text: '15 Burpees\n@ Courthouse', row: 2, col: 0 },
+                            { text: 'Bear Crawl\nFront Lawn', row: 2, col: 1 },
+                            { text: '20 Lunges\n@ Red Hen', row: 2, col: 2 }
+                          ].map((square, idx) => {
+                            const isMarked = fitnessCard[square.row][square.col];
+                            return (
+                              <button
+                                key={idx}
+                                onClick={() => !square.isFree && toggleFitnessSquare(square.row, square.col)}
+                                disabled={square.isFree}
+                                className={`border-2 rounded p-2 text-center transition-all ${
+                                  square.isFree 
+                                    ? 'bg-yellow-50 border-yellow-400 cursor-default'
+                                    : isMarked
+                                    ? 'bg-green-100 border-green-500 shadow-md'
+                                    : 'bg-orange-50 border-orange-300 hover:bg-orange-100 cursor-pointer active:scale-95'
+                                }`}
+                              >
+                                <div className={`text-xs whitespace-pre-line ${isMarked ? 'font-bold text-green-900' : 'text-gray-700'}`}>
+                                  {square.text}
+                                </div>
+                                {isMarked && !square.isFree && (
+                                  <div className="text-lg mt-1">✓</div>
                                 )}
-                            </div>
+                              </button>
+                            );
+                          })}
                         </div>
+                        <p className="text-sm text-gray-600 text-center mb-2">
+                          💪 Tap squares when you complete each exercise!
+                        </p>
+                        <p className="text-sm font-semibold text-orange-600 text-center">
+                          First to get 3 in a row wins!
+                        </p>
+                        <button
+                          onClick={resetFitnessBingo}
+                          className="mt-4 w-full bg-gray-200 text-gray-700 py-2 rounded-lg text-sm font-medium hover:bg-gray-300"
+                        >
+                          Reset Card
+                        </button>
+                      </div>
+                    ) : (
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line">{step.text}</p>
+                    )}
+                  </div>
+
+                  {currentStep === 1 && (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                      <p className="text-sm text-yellow-800 font-medium">
+                        💡 Put your phone in your pocket now! Only check when you need the next step.
+                      </p>
                     </div>
-                );
-            }
+                  )}
 
-            if (screen === 'complete' && selectedGame) {
-                return (
-                    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white p-6 flex flex-col items-center justify-center">
-                        <div className="text-center max-w-md">
-                            <div className="text-6xl mb-4">🎉</div>
-                            <h1 className="text-3xl font-bold mb-2">Great Job!</h1>
-                            <p className="text-gray-600 mb-2">You completed:</p>
-                            <p className="text-xl font-semibold mb-4">{selectedGame.name}</p>
-                            <p className="text-gray-600 mb-8">Time: {formatTime(timer)}</p>
+                  <div className="space-y-3">
+                    {!isLastStep ? (
+                      <button
+                        onClick={() => setCurrentStep(currentStep + 1)}
+                        className="w-full bg-blue-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg hover:bg-blue-700 transition-all"
+                      >
+                        Next Step →
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setScreen('complete');
+                          setTimerRunning(false);
+                        }}
+                        className="w-full bg-green-600 text-white py-4 rounded-full font-semibold text-lg shadow-lg hover:bg-green-700 transition-all"
+                      >
+                        Complete Game 🎉
+                      </button>
+                    )}
 
-                            <div className="space-y-3">
-                                <button onClick={() => setScreen('library')} className="w-full bg-blue-600 text-white py-3 rounded-full font-semibold">
-                                    Play Another Activity
-                                </button>
-                                <button onClick={() => setScreen('home')} className="w-full bg-gray-200 text-gray-700 py-3 rounded-full font-semibold">
-                                    Back to Home
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
+                    {currentStep > 0 && (
+                      <button
+                        onClick={() => setCurrentStep(currentStep - 1)}
+                        className="w-full bg-gray-100 text-gray-700 py-3 rounded-full font-semibold hover:bg-gray-200 transition-all"
+                      >
+                        ← Previous Step
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          }
 
-            return null;
+          if (screen === 'complete' && selectedGame) {
+            return (
+              <div className="min-h-screen bg-gradient-to-b from-green-50 to-white p-6 flex flex-col items-center justify-center">
+                <div className="text-center max-w-md">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-2">Great Job!</h1>
+                  <p className="text-gray-600 mb-2">You completed:</p>
+                  <p className="text-xl font-semibold text-gray-900 mb-4">{selectedGame.name}</p>
+                  <p className="text-gray-600 mb-8">Time: {formatTime(timer)}</p>
+
+                  <div className="space-y-3">
+                    <button
+                      onClick={() => setScreen('library')}
+                      className="w-full bg-blue-600 text-white py-3 rounded-full font-semibold hover:bg-blue-700 transition-all"
+                    >
+                      Play Another Activity
+                    </button>
+                    <button
+                      onClick={() => setScreen('home')}
+                      className="w-full bg-gray-200 text-gray-700 py-3 rounded-full font-semibold hover:bg-gray-300 transition-all"
+                    >
+                      Back to Home
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+
+          return null;
         }
 
-        ReactDOM.render(<App />, document.getElementById('root'));
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
